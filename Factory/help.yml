@@ -1,0 +1,38 @@
+Help:
+   pages:
+      '1':
+         fhelp:
+            fullcmd: '/fhelp [page/command]'
+            ex: '/fhelp 2 OR /fhelp fbuyfactory'
+            description: '&eCurrently what your looking at now!'
+            aliases: 
+               - '/fh [page]'
+         fbuyslot:
+            fullcmd: '/fbuyslot <factory #>'
+            ex: '/fbuyslot 1'
+            description: '&eBuy a slot for a specific factory.'
+            aliases:
+               - '/fbs <factory #> '
+         fbuyfactory:
+            fullcmd: '/fbuyfactory'
+            ex: '/fbuyfactory'
+            description: '&eBuy a factory.'
+            aliases:
+               - '/fbf'
+         fbuyequipment:
+            fullcmd: '/fbuyequipment'
+            ex: '/fbuyequipment'
+            description: '&eOpens the shop for buying factory equipment.'
+            aliases:
+               - '/fbe'
+         fstats:
+            fullcmd: '/fstats [player]'
+            ex: '/fstats Steve'
+            description: '&eCheck your stats or another player stats.'
+            aliases:
+               - '/fs [player]'
+         fhome:
+            fullcmd: '/fhome [factory #]'
+            ex: '/fhome 1'
+            description: '&eTeleport back to one of your factorys'
+            aliases: ''

@@ -1,0 +1,8 @@
+Settings:
+   prefix: '&6[&7Factory&6] &7> &r'
+Messages:
+   tips:
+      - '&3You can place a &6&lBuyer &3in certain directions.'
+      - '&3Instead of doing &9&l/fbs <slot #>&3, you can right click on the hologram.'
+      - '&3You can determine in which direction that your &6&lConveyor Belt &3by right clicking on it.'
+      - '&3If you want to know what a command does, do &9&l/fhelp <commandname> &7(without the /)&3 to get the full description.'

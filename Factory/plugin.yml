@@ -1,0 +1,21 @@
+name: Factory
+version: 1.0.0
+main: me.hype.factory.Core
+commands:
+   fbuyfactory:
+      description: Allows you to buy a factory.
+      usage: /<command>
+      aliases: [fbf]
+   fhelp:
+      description: Display the help pages.
+      usage: /<command> [page]
+      aliases: [fh]
+   fhome:
+      description: Teleport back to a factory.
+      usage: /<command> [factory #]
+      aliases: []
+   fbuyslot:
+      description: Allows you to buy a slot in a specific factory.
+      usage: /<command> <factory #>
+      aliases: [fbs]
+      

@@ -1,0 +1,351 @@
+FactorySettings:
+   factoryworlds: {}
+   factorycost:
+      '1':
+         cost: 0
+      '2':
+         cost: 100000000000000
+# DO NOT CHANGE ANYTHING EXCEPT THE COST OF THE SLOTS, OTHERWISE EVERYTHING WILL BE MESSED UP AND WILL HAVE TO BE RESTARTED
+# IF A CHANCE YOU MAY HAVE CHANGED THE LOCATIONS, PLEASE DELETE THE FILE AND RELOAD THE SERVER. EVERYTHING SHOULD BE FINE AFTER THAT BUT ANY
+# CHANGES MADE BEFORE REMOVAL OF THE FILE, WILL NOT BE SAVED AND WILL HAVE TO BE RE-EDITED.
+   factoryslots: 
+      factorys:
+         '1':
+            slots:
+               slot1:
+                  cost: 10000
+                  location1:
+                     x: -6
+                     y: 40
+                     z: -7
+                  location2:
+                     x: 6
+                     y: 40
+                     z: -19
+                  locationc:
+                     x: 0
+                     y: 40
+                     z: -13
+               slot2:
+                  cost: 25000
+                  location1:
+                     x: 7
+                     y: 40
+                     z: 6
+                  location2:
+                     x: 19
+                     y: 40
+                     z: -6
+                  locationc:
+                     x: 13
+                     y: 40
+                     z: 0
+               slot3:
+                  cost: 50000
+                  location1:
+                     x: 7
+                     y: 40
+                     z: -7
+                  location2:
+                     x: 19
+                     y: 40
+                     z: -19
+                  locationc:
+                     x: 13
+                     y: 40
+                     z: -13
+               slot4:
+                  cost: 100000
+                  location1:
+                     x: -6
+                     y: 40
+                     z: -20
+                  location2:
+                     x: 6
+                     y: 40
+                     z: -32
+                  locationc:
+                     x: 0
+                     y: 40
+                     z: -26
+               slot5:
+                  cost: 150000
+                  location1:
+                     x: 7
+                     y: 40
+                     z: -20
+                  location2:
+                     x: 19
+                     y: 40
+                     z: -32
+                  locationc:
+                     x: 13
+                     y: 40
+                     z: -26
+               slot6:
+                  cost: 200000
+                  location1:
+                     x: 20
+                     y: 40
+                     z: 6
+                  location2:
+                     x: 32
+                     y: 40
+                     z: -6
+                  locationc:
+                     x: 26
+                     y: 40
+                     z: 0
+               slot7:
+                  cost: 250000
+                  location1:
+                     x: 20
+                     y: 40
+                     z: -7
+                  location2:
+                     x: 32
+                     y: 40
+                     z: -19
+                  locationc:
+                     x: 26
+                     y: 40
+                     z: -13
+               slot8:
+                  cost: 300000
+                  location1:
+                     x: 20
+                     y: 40
+                     z: -20
+                  location2:
+                     x: 32
+                     y: 40
+                     z: -32
+                  locationc:
+                     x: 26
+                     y: 40
+                     z: -26
+               slot9:
+                  cost: 350000
+                  location1:
+                     x: -6
+                     y: 40
+                     z: -33
+                  location2:
+                     x: 6
+                     y: 40
+                     z: -45
+                  locationc:
+                     x: 0
+                     y: 40
+                     z: -39
+               slot10:
+                  cost: 400000
+                  location1:
+                     x: 7
+                     y: 40
+                     z: -33
+                  location2:
+                     x: 19
+                     y: 40
+                     z: -45
+                  locationc:
+                     x: 13
+                     y: 40
+                     z: -39
+               slot11:
+                  cost: 450000
+                  location1:
+                     x: 20
+                     y: 40
+                     z: -33
+                  location2:
+                     x: 32
+                     y: 40
+                     z: -45
+                  locationc:
+                     x: 26
+                     y: 40
+                     z: -39
+               slot12:
+                  cost: 500000
+                  location1:
+                     x: 33
+                     y: 40
+                     z: 6
+                  location2:
+                     x: 45
+                     y: 40
+                     z: -6
+                  locationc:
+                     x: 39
+                     y: 40
+                     z: 0
+               slot13:
+                  cost: 550000
+                  location1:
+                     x: 33
+                     y: 40
+                     z: -7
+                  location2:
+                     x: 45
+                     y: 40
+                     z: -19
+                  locationc:
+                     x: 39
+                     y: 40
+                     z: -13
+               slot14:
+                  cost: 600000
+                  location1:
+                     x: 33
+                     y: 40
+                     z: -20
+                  location2:
+                     x: 45
+                     y: 40
+                     z: -32
+                  locationc:
+                     x: 39
+                     y: 40
+                     z: -26
+               slot15:
+                  cost: 650000
+                  location1:
+                     x: 33
+                     y: 40
+                     z: -33
+                  location2:
+                     x: 45
+                     y: 40
+                     z: -45
+                  locationc:
+                     x: 39
+                     y: 40
+                     z: -39
+               slot16:
+                  cost: 700000
+                  location1:
+                     x: -6
+                     y: 40
+                     z: -46
+                  location2:
+                     x: 6
+                     y: 40
+                     z: -58
+                  locationc:
+                     x: 0
+                     y: 40
+                     z: -52
+               slot17:
+                  cost: 750000
+                  location1:
+                     x: 7
+                     y: 40
+                     z: -46
+                  location2:
+                     x: 19
+                     y: 40
+                     z: -58
+                  locationc:
+                     x: 13
+                     y: 40
+                     z: -52
+               slot18:
+                  cost: 800000
+                  location1:
+                     x: 20
+                     y: 40
+                     z: -46
+                  location2:
+                     x: 32
+                     y: 40
+                     z: -58
+                  locationc:
+                     x: 26
+                     y: 40
+                     z: -52
+               slot19:
+                  cost: 850000
+                  location1:
+                     x: 33
+                     y: 40
+                     z: -46
+                  location2:
+                     x: 45
+                     y: 40
+                     z: -58
+                  locationc:
+                     x: 39
+                     y: 40
+                     z: -52
+               slot20:
+                  cost: 900000
+                  location1:
+                     x: 46
+                     y: 40
+                     z: 6
+                  location2:
+                     x: 58
+                     y: 40
+                     z: -6
+                  locationc:
+                     x: 52
+                     y: 40
+                     z: 0
+               slot21:
+                  cost: 950000
+                  location1:
+                     x: 46
+                     y: 40
+                     z: -7
+                  location2:
+                     x: 58
+                     y: 40
+                     z: -19
+                  locationc:
+                     x: 52
+                     y: 40
+                     z: -13
+               slot22:
+                  cost: 1000000
+                  location1:
+                     x: 46
+                     y: 40
+                     z: -20
+                  location2:
+                     x: 58
+                     y: 40
+                     z: -32
+                  locationc:
+                     x: 52
+                     y: 40
+                     z: -26
+               slot23:
+                  cost: 1050000
+                  location1:
+                     x: 46
+                     y: 40
+                     z: -33
+                  location2:
+                     x: 58
+                     y: 40
+                     z: -45
+                  locationc:
+                     x: 52
+                     y: 40
+                     z: -39
+               slot24:
+                  cost: 1100000
+                  location1:
+                     x: 46
+                     y: 40
+                     z: -46
+                  location2:
+                     x: 58
+                     y: 40
+                     z: -58
+                  locationc:
+                     x: 52
+                     y: 40
+                     z: -52
+               
