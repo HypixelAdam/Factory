@@ -24,6 +24,7 @@ import me.hype.factory.commands.BuyFactory;
 import me.hype.factory.commands.BuySlot;
 import me.hype.factory.commands.FactoryHome;
 import me.hype.factory.commands.Help;
+import me.hype.factory.commands.PlayerStats;
 import me.hype.factory.events.InventoryClick;
 import me.hype.factory.events.OnClick;
 import me.hype.factory.events.OnJoin;
@@ -81,6 +82,7 @@ public class Core extends JavaPlugin {
 		getCmds("fhelp",new Help());
 		getCmds("fhome",new FactoryHome());
 		getCmds("fbuyslot",new BuySlot());
+		getCmds("fstats",new PlayerStats());
 		// ADD LISTENERS HERE
 		getLisn(new InventoryClick(),this);
 		getLisn(new OnJoin(),this);

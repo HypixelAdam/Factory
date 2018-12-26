@@ -18,4 +18,8 @@ commands:
       description: Allows you to buy a slot in a specific factory.
       usage: /<command> <factory #>
       aliases: [fbs]
+   fstats:
+      description: Checks the stats of you or another player.
+      usage: /<command> [player]
+      aliases: [fs]
       
