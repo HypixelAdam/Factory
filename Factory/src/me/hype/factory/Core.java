@@ -42,11 +42,12 @@ public class Core extends JavaPlugin {
 
 	public void onEnable() {
 		plugin = this;
-		ConfigManager cm = new ConfigManager();
+		setupConfig();
 		registerEvents();
 		spawnArmorStands();
 		checkFactoryWorlds();
 		setEnableScoreboard();
+		ConfigManager cm = new ConfigManager();
 		this.getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
 			public void run() {
 				Random r = new Random();
@@ -54,10 +55,12 @@ public class Core extends JavaPlugin {
 				int tindex = r.nextInt(tips.size());
 				String tip = tips.get(tindex);
 				for (Player p : Bukkit.getOnlinePlayers()) {
-					
 					if (cm.getFactoryWorlds().contains(p.getWorld().getName())) {
 						p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10, 1);
 						p.sendMessage(format("&7[&bTIP&7] "+tip));
+						return;
+					} else {
+						return;
 					}
 				}
 			}
@@ -66,6 +69,7 @@ public class Core extends JavaPlugin {
 			WorldCreator wc = new WorldCreator(cwn);
 			Bukkit.getServer().createWorld(wc);
 		}
+		
 	}
 
 	public void onDisable() {
