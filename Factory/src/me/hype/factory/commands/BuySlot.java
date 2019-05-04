@@ -46,7 +46,6 @@ public class BuySlot implements CommandExecutor {
 						p.sendMessage(format(prefix+"&cYou don't own this factory."));
 						return true;
 					}
-					p.sendMessage(format(prefix+"&aOne moment..."));
 					p.openInventory(im.buySlot(p, facid));
 					return true;
 				} else {

@@ -1,5 +1,7 @@
 package me.hype.factory.managers;
 
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -38,34 +40,66 @@ public class ScoreboardManager {
 	}
 	// Name: Factory
 	// -----
-	// 6 Name > (players name)
-	// 5 Factories Owned > (players total factories)
-	// 4 Money > (players money)
-	// 3 [ Money ]
+	// 5 Name > (players name)
+	// 4 Factories Owned > (players total factories)
+	// 3 Money > (players money)
 	// 2 Total MPS > (players total mps)
 	// 1 Total Earned > (players total earned)
 	// 0 Total Spent > (players total spent)
 	public Scoreboard spawnScoreboard(Player p) {
 		if (cm == null) {cm = new ConfigManager();}
 		String uuid = p.getUniqueId().toString();
-		if (cm == null) {cm = new ConfigManager();}
 		Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
 		Objective o = sb.registerNewObjective("dummy", "dummy");
 		o.setDisplayName(format("&3&lFactory"));
 		o.setDisplaySlot(DisplaySlot.SIDEBAR);
-		o.getScore(format("&aName &7> &e"+p.getName())).setScore(6);
-		o.getScore(format("&aFactories Owned &7> &e"+cm.totalFactoriesOwned(p))).setScore(5);
-		o.getScore(format("&aMoney &7> &e"+plugin.getPlayersConfig().getInt("Players."+uuid+".stats.money"))).setScore(4);
-		o.getScore(format("&3[ &2Money Stats &3]")).setScore(3);
+		o.getScore(format("&aName &7> &e"+p.getName())).setScore(5);
+		o.getScore(format("&aFactories Owned &7> &e"+cm.totalFactoriesOwned(p))).setScore(4);
+		o.getScore(format("&aMoney &7> &e"+plugin.getPlayersConfig().getInt("Players."+uuid+".stats.money"))).setScore(3);
 		o.getScore(format("&aTotal MPS &7> &e"+cm.totalFactoriesMPS(p))).setScore(2);
 		o.getScore(format("&aTotal Earned &7> &e"+plugin.getPlayersConfig().getInt("Players."+uuid+".stats.moneyearned"))).setScore(1);
 		o.getScore(format("&aTotal Spent &7> &e"+plugin.getPlayersConfig().getInt("Players."+uuid+".stats.moneyspent"))).setScore(0);
 		p.setScoreboard(sb);
 		return sb;
 	}
-	
-	
-	
+	// Name: Factory
+	// -----
+	// 5 Name > (players name)
+	// 4 Factories Owned > (players total factories)
+	// 3 Money > (players money)
+	// 2 Total MPS > (players total mps)
+	// 1 Total Earned > (players total earned)
+	// 0 Total Spent > (players total spent)
+	public Scoreboard playerStatsScoreboard(Player p, List<String> stats) {
+		if (cm == null) {cm = new ConfigManager();}
+		Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
+		Objective o = sb.registerNewObjective("dummy", "dummy");
+		o.setDisplayName(format("&3&lFactory"));
+		o.setDisplaySlot(DisplaySlot.SIDEBAR);
+		o.getScore(format("&aName &7> &e"+p.getName())).setScore(5);
+		o.getScore(format("&aFactories Owned &7> &e"+stats.get(3))).setScore(4);
+		o.getScore(format("&aMoney &7> &e"+stats.get(0))).setScore(3);
+		o.getScore(format("&aTotal MPS &7> &e"+cm.totalFactoriesMPS(p))).setScore(2);
+		o.getScore(format("&aTotal Earned &7> &e"+stats.get(2))).setScore(1);
+		o.getScore(format("&aTotal Spent &7> &e"+stats.get(1))).setScore(0);
+		p.setScoreboard(sb);
+		return sb;
+	}
+	public Scoreboard playerStatsScoreboard(Player p, Player tp, List<String> stats) {
+		if (cm == null) {cm = new ConfigManager();}
+		Scoreboard sb = Bukkit.getScoreboardManager().getNewScoreboard();
+		Objective o = sb.registerNewObjective("dummy", "dummy");
+		o.setDisplayName(format("&3&lFactory"));
+		o.setDisplaySlot(DisplaySlot.SIDEBAR);
+		o.getScore(format("&aName &7> &e"+tp.getName())).setScore(5);
+		o.getScore(format("&aFactories Owned &7> &e"+stats.get(3))).setScore(4);
+		o.getScore(format("&aMoney &7> &e"+stats.get(0))).setScore(3);
+		o.getScore(format("&aTotal MPS &7> &e"+cm.totalFactoriesMPS(tp))).setScore(2);
+		o.getScore(format("&aTotal Earned &7> &e"+stats.get(2))).setScore(1);
+		o.getScore(format("&aTotal Spent &7> &e"+stats.get(1))).setScore(0);
+		p.setScoreboard(sb);
+		return sb;
+	}
 	public String format(String s) {
 		return ChatColor.translateAlternateColorCodes('&', s);
 	}

@@ -1,7 +1,6 @@
 package me.hype.factory.managers;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import me.hype.factory.Core;
 
@@ -18,6 +16,30 @@ public class InventoryManager {
 	
 	ConfigManager cm = new ConfigManager();
 	Core plugin = Core.getInstance();
+	
+	public void factoryInventory(Player p) {
+		if (plugin == null) {plugin = Core.getInstance();}
+		if (cm == null) {cm = new ConfigManager();}
+		Inventory pinv = p.getInventory();
+		//
+		ItemStack equipment = new ItemStack(Material.EMERALD,1);
+		ItemStack estock = new ItemStack(Material.CHEST,1);
+		//
+		ArrayList<String> elore = new ArrayList<String>();
+		ArrayList<String> eslore = new ArrayList<String>();
+		//
+		elore.add(format("&7Right click me to buy your equipment!"));
+		eslore.add(format("&7Right click me to see what you have in stock!"));
+		//
+		setIm(equipment,format("&aBuy Factory Equipment"),elore);
+		setIm(estock,format("&aEquipment Storage"),eslore);
+		//
+		pinv.clear();
+		pinv.setItem(0, equipment);
+		pinv.setItem(8, estock);
+		//
+		return;
+	}
 	
 	public Inventory buyFactory(Player p) {
 		if (plugin == null) {plugin = Core.getInstance();}
@@ -122,65 +144,42 @@ public class InventoryManager {
 		//
 		return inv;
 	}
-	// TODO PLAYER INVENTORYS
-	public Inventory playerStats(Player p, List<String> targetP) {
-		if (plugin == null) {plugin = Core.getInstance();}
-		if (cm == null) {cm = new ConfigManager();}
-		int tm = Integer.parseInt(targetP.get(0));
-		int tms = Integer.parseInt(targetP.get(1));
-		int tme = Integer.parseInt(targetP.get(2));
-		int tfo = Integer.parseInt(targetP.get(3));
-		String tpn = targetP.get(4);
+	public Inventory buyEquipmentInventory() {
+		if (plugin == null) {plugin	= Core.getInstance();}
+		Inventory inv = Bukkit.createInventory(null,9,format("&6Factory Equipment"));
 		//
-		Inventory inv = Bukkit.createInventory(null, 9, "&e&l"+tpn+"&a's stats");
+		ItemStack buyer = new ItemStack(Material.DISPENSER,1);
+		ItemStack seller = new ItemStack(Material.DROPPER,1);
+		ItemStack conveyor = new ItemStack(Material.RAILS,1);
 		//
-		ItemStack pskull = new ItemStack(Material.SKULL_ITEM,1,(byte)3);
-		ItemStack tarm = new ItemStack(Material.PAPER,1);
-		ItemStack tarms = new ItemStack(Material.PAPER,1);
-		ItemStack tarme = new ItemStack(Material.PAPER,1);
-		ItemStack tarfo = new ItemStack(Material.PAPER,1);
+		ArrayList<String> blore = new ArrayList<String>();
+		ArrayList<String> slore = new ArrayList<String>();
+		ArrayList<String> clore = new ArrayList<String>();
 		//
-		ArrayList<String> pslore = new ArrayList<String>();
-		ArrayList<String> tmlore = new ArrayList<String>();
-		ArrayList<String> tmslore = new ArrayList<String>();
-		ArrayList<String> tmelore = new ArrayList<String>();
-		ArrayList<String> tfolore = new ArrayList<String>();
+		blore.add(format("&7Spawns in items to use it for crafting or selling."));
+		blore.add(format("&aCost: $&e "+plugin.getFactoryConfig().getInt("FactorySettings.factory-equipment.buyer.cost")));
+		slore.add(format("&7Sells items that is given to it."));
+		slore.add(format("&aCost: $&e "+plugin.getFactoryConfig().getInt("FactorySettings.factory-equipment.seller.cost")));
+		clore.add(format("&7Allows movement of your items around your factory."));
+		clore.add(format("&aCost: $&e "+plugin.getFactoryConfig().getInt("FactorySettings.factory-equipment.conveyorbelt.cost")));
 		//
-		pslore.add(format("&aPlayer name: &e"+tpn));
-		tmlore.add(format("&aMoney: &e"+tm));
-		tmslore.add(format("&aMoney Spent: &e"+tms));
-		tmelore.add(format("&aMoney Earned: &e"+tme));
-		tfolore.add(format("&aTotal Factories Owned: &e"+tfo));
+		setIm(buyer,format("&6Buyer"),blore);
+		setIm(seller,format("&6Seller"),slore);
+		setIm(conveyor,format("&6Conveyor Belt"),clore);
 		//
-		setSm(pskull,format("&6Player Name"),pslore,tpn);
-		setIm(tarm,format("&6Current Money"),tmlore);
-		setIm(tarms,format("&6Total Money Spent"),tmslore);
-		setIm(tarme,format("&6Total Money Earned"),tmelore);
-		setIm(tarfo,format("&6Total Factories Owned"),tfolore);
-		//
-		inv.setItem(0, pskull);
-		inv.setItem(2, tarm);
-		inv.setItem(4, tarms);
-		inv.setItem(6, tarme);
-		inv.setItem(8, tarfo);
+		inv.setItem(0, buyer);
+		inv.setItem(1, seller);
+		inv.setItem(2, conveyor);
 		//
 		return inv;
 	}
-	
+	// TODO PLAYER INVENTORYS
+	// TODO OTHER METHODS
 	public ItemStack setIm(ItemStack is, String displayname, ArrayList<String> lore) {
 		ItemMeta im = is.getItemMeta();
 		im.setDisplayName(displayname);
 		im.setLore(lore);
 		is.setItemMeta(im);
-		return is;
-	}
-	
-	public ItemStack setSm(ItemStack is, String displayname, ArrayList<String> lore, String playername) {
-		SkullMeta sm = (SkullMeta) is;
-		sm.setOwner(playername);
-		sm.setDisplayName(displayname);
-		sm.setLore(lore);
-		is.setItemMeta(sm);
 		return is;
 	}
 	

@@ -22,4 +22,8 @@ commands:
       description: Checks the stats of you or another player.
       usage: /<command> [player]
       aliases: [fs]
+   fbuyequipment:
+      description: Allows you to buy equipment for your factory.
+      usage: /<command>
+      aliases: [fbe]
       

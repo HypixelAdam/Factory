@@ -4,7 +4,15 @@ FactorySettings:
       '1':
          cost: 0
       '2':
-         cost: 100000000000000
+         cost: 1000000000
+# NOTE: The cost for each item is going to be for ONE not MULTIPLE.
+   factory-equipment:
+      buyer:
+         cost: 100
+      seller:
+         cost: 150
+      conveyorbelt:
+         cost: 50
 # DO NOT CHANGE ANYTHING EXCEPT THE COST OF THE SLOTS, OTHERWISE EVERYTHING WILL BE MESSED UP AND WILL HAVE TO BE RESTARTED
 # IF A CHANCE YOU MAY HAVE CHANGED THE LOCATIONS, PLEASE DELETE THE FILE AND RELOAD THE SERVER. EVERYTHING SHOULD BE FINE AFTER THAT BUT ANY
 # CHANGES MADE BEFORE REMOVAL OF THE FILE, WILL NOT BE SAVED AND WILL HAVE TO BE RE-EDITED.

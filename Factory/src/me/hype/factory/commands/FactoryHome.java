@@ -33,9 +33,9 @@ public class FactoryHome implements CommandExecutor {
 					p.sendMessage(format(prefix+"&cYou don't own this factory."));
 					return true;
 				}
-				p.sendMessage(format(prefix+"&aTeleporting to Factory 1..."));
+				p.sendMessage(format(prefix+"&aTeleporting..."));
 				despawnFactoryStands(p.getName(),1);
-				spawnFactoryStands(p.getName(),1);
+				spawnFactoryStands(p,1);
 				cm.tpToFactoryHome(p, 1);
 				return true;
 			} else if (length == 1) {
@@ -45,9 +45,9 @@ public class FactoryHome implements CommandExecutor {
 						p.sendMessage(format(prefix+"&cYou don't own this factory."));
 						return true;
 					}
-					p.sendMessage(format(prefix+"&aTeleporting to Factory "+facid+"..."));
+					p.sendMessage(format(prefix+"&aTeleporting..."));
 					despawnFactoryStands(p.getName(),facid);
-					spawnFactoryStands(p.getName(),facid);
+					spawnFactoryStands(p,facid);
 					cm.tpToFactoryHome(p, facid);
 					return true;
 				} else {
@@ -71,8 +71,8 @@ public class FactoryHome implements CommandExecutor {
 		return true;
 	}
 	
-	public void spawnFactoryStands(String pname, int facid) {
-		plugin.spawnArmorStands(pname+facid);
+	public void spawnFactoryStands(Player p, int facid) {
+		plugin.spawnArmorStands(p,facid);
 		return;
 	}
 	

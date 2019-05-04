@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -20,13 +21,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.hype.factory.commands.BuyEquipment;
 import me.hype.factory.commands.BuyFactory;
 import me.hype.factory.commands.BuySlot;
 import me.hype.factory.commands.FactoryHome;
 import me.hype.factory.commands.Help;
 import me.hype.factory.commands.PlayerStats;
 import me.hype.factory.events.InventoryClick;
-import me.hype.factory.events.OnClick;
+import me.hype.factory.events.OnEntityClick;
+import me.hype.factory.events.OnInteract;
 import me.hype.factory.events.OnJoin;
 import me.hype.factory.managers.ArmorstandManager;
 import me.hype.factory.managers.ConfigManager;
@@ -87,10 +90,12 @@ public class Core extends JavaPlugin {
 		getCmds("fhome",new FactoryHome());
 		getCmds("fbuyslot",new BuySlot());
 		getCmds("fstats",new PlayerStats());
+		getCmds("fbuyequipment",new BuyEquipment());
 		// ADD LISTENERS HERE
 		getLisn(new InventoryClick(),this);
 		getLisn(new OnJoin(),this);
-		getLisn(new OnClick(),this);
+		getLisn(new OnEntityClick(),this);
+		getLisn(new OnInteract(),this);
 		return;
 	}
 
@@ -141,36 +146,28 @@ public class Core extends JavaPlugin {
 	public void spawnArmorStands() {
 		ConfigManager cm = new ConfigManager();
 		ArmorstandManager asm = new ArmorstandManager();
-		List<String> worlds = cm.getFactoryWorlds();
-		for (int i = 0;i<worlds.size();i++) {
-			if (i > worlds.size()) {
-				break;
-			}
-			String index = worlds.get(i);
-			if (Bukkit.getWorld(index) == null) {
-				continue;
-			}
-			int facid = cm.getIdFromString(index);
-			List<Integer> slotsowned = cm.getPlayerSlotsOwned(index);
-			asm.createFactorySlotNumberArmorStandsR(Bukkit.getWorld(index), facid, slotsowned);
-			asm.createFactorySlotCostArmorStandsR(Bukkit.getWorld(index), facid, slotsowned);
-			asm.createFactorySlotInformationStandsR(Bukkit.getWorld(index), facid, slotsowned);
+		for (Entry<String, List<Integer>> s : cm.getPlayerSlotsOwnedUUID().entrySet()) {
+			String worldname = s.getKey();
+			List<Integer> slotsowned = s.getValue();
+			asm.createFactorySlotNumberArmorStandsR(Bukkit.getWorld(worldname), cm.getIdFromString(worldname), slotsowned);
+			asm.createFactorySlotCostArmorStandsR(Bukkit.getWorld(worldname), cm.getIdFromString(worldname), slotsowned);
+			asm.createFactorySlotInformationStandsR(Bukkit.getWorld(worldname), cm.getIdFromString(worldname), slotsowned);
 		}
 		return;
 	}
 	
-	public void spawnArmorStands(String w) {
+	public void spawnArmorStands(Player p, int facid) {
 		ConfigManager cm = new ConfigManager();
 		ArmorstandManager asm = new ArmorstandManager();
 		List<String> worlds = cm.getFactoryWorlds();
-		if (Bukkit.getWorld(w) == null || !worlds.contains(w)) {
+		String pworld = p.getName()+facid;
+		if (Bukkit.getWorld(pworld) == null || !worlds.contains(pworld)) {
 			return;
 		}
-		int facid = cm.getIdFromString(w);
-		List<Integer> slotsowned = cm.getPlayerSlotsOwned(w);
-		asm.createFactorySlotNumberArmorStandsR(Bukkit.getWorld(w), facid, slotsowned);
-		asm.createFactorySlotCostArmorStandsR(Bukkit.getWorld(w), facid, slotsowned);
-		asm.createFactorySlotInformationStandsR(Bukkit.getWorld(w), facid, slotsowned);
+		List<Integer> slotsowned = cm.getPlayerSlotsOwned(p,facid);
+		asm.createFactorySlotNumberArmorStandsR(Bukkit.getWorld(pworld), facid, slotsowned);
+		asm.createFactorySlotCostArmorStandsR(Bukkit.getWorld(pworld), facid, slotsowned);
+		asm.createFactorySlotInformationStandsR(Bukkit.getWorld(pworld), facid, slotsowned);
 		return;
 	}
 	

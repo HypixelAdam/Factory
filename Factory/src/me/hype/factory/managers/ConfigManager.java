@@ -1,6 +1,7 @@
 package me.hype.factory.managers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -22,6 +23,7 @@ public class ConfigManager {
 	String prefix = Core.getInstance().getConfig().getString("Settings.prefix");
 	ArmorstandManager asm = null;
 	ScoreboardManager sbm = null;
+	InventoryManager im = null;
 	
 	// TODO WORLD CREATION
 	@SuppressWarnings("deprecation")
@@ -249,6 +251,7 @@ public class ConfigManager {
 	public String format(String s) {
 		return ChatColor.translateAlternateColorCodes('&', s);
 	}
+	
 	// TODO STATS (PLAYERS)
 	public void addPlayer(Player p) {
 		String uuid = p.getUniqueId().toString();
@@ -258,6 +261,7 @@ public class ConfigManager {
 		plugin.getPlayersConfig().set("Players."+uuid+".stats.moneyspent", 0);
 		plugin.getPlayersConfig().set("Players."+uuid+".stats.moneyearned", 0);
 		plugin.getPlayersConfig().set("Players."+uuid+".factories", "");
+		plugin.getPlayersConfig().set("Players."+uuid+".equipmentstock", "");
 		plugin.saveConfigToFile(plugin.playersFile, plugin.playersConfig);
 		return;
 	}
@@ -281,11 +285,17 @@ public class ConfigManager {
 		return plugin.getPlayersConfig().getInt("Players."+uuid+".stats.moneyearned");
 	}
 	public int getPlayerFactoriesOwned(String uuid) {
-		return plugin.getPlayersConfig().getConfigurationSection("Players."+uuid+".factories").getKeys(false).size();
+		if (plugin.getPlayersConfig().getConfigurationSection("Players."+uuid+".factories").getKeys(false).size() == 0 || 
+				plugin.getPlayersConfig().getConfigurationSection("Players."+uuid+".factories") == null) {
+			return 0;
+		} else {
+			return plugin.getPlayersConfig().getConfigurationSection("Players."+uuid+".factories").getKeys(false).size();
+		}
 	}
 	public String getPlayerName(String uuid) {
 		return plugin.getPlayersConfig().getString("Players."+uuid+".info.name");
 	}
+	
 	// TODO FACTORY (PLAYERS)
 	public int totalFactoriesOwned(Player p) {
 		if (!isFactoryOwned(p,1)) {
@@ -307,8 +317,10 @@ public class ConfigManager {
 	}
 	public void tpToFactoryHome(Player p, int facid) {
 		if (sbm == null) {sbm = new ScoreboardManager();}
+		if (im == null) {im = new InventoryManager();}
 		sbm.factoryScoreboard(p, facid);
-		Location loc = new Location(Bukkit.getWorld(p.getName()+facid),0,42,0);
+		im.factoryInventory(p);
+		Location loc = new Location(Bukkit.getWorld(plugin.getPlayersConfig().getString("Players."+p.getUniqueId().toString()+".info.name")+facid),0,42,0);
 		p.teleport(loc);
 		return;
 	}
@@ -380,16 +392,30 @@ public class ConfigManager {
 		plugin.saveConfigToFile(plugin.playersFile, plugin.playersConfig);
 		return;
 	}
-	@SuppressWarnings("deprecation")
-	public List<Integer> getPlayerSlotsOwned(String index) {
-		String uuid = Bukkit.getPlayer(getNameFromString(index)).getUniqueId().toString();
-		int facid = getIdFromString(index);
-		List<Integer> slotsowned = plugin.getPlayersConfig().getIntegerList("Players."+uuid+".factories."+String.valueOf(facid)+".slots-owned");
-		return slotsowned;
+	public HashMap<String,List<Integer>> getPlayerSlotsOwnedUUID() {
+		HashMap<String,List<Integer>> hash = new HashMap<String,List<Integer>>();
+		List<Integer> slotsowned = null;
+		for (String uuid : plugin.getPlayersConfig().getConfigurationSection("Players").getKeys(false)) {
+			for (String facid : plugin.getPlayersConfig().getConfigurationSection("Players."+uuid+".factories").getKeys(false)) {
+				slotsowned = plugin.getPlayersConfig().getIntegerList("Players."+uuid+".factories."+facid+".slots-owned");
+				hash.put(plugin.getPlayersConfig().getString("Players."+uuid+".factories."+facid+".worldname"), slotsowned);
+			}
+		}
+		if (slotsowned == null || hash == null || hash.isEmpty() || hash.size() == 0) {
+			return null;
+		}
+		return hash;
 	}
 	public List<Integer> getPlayerSlotsOwned(Player p,int facid) {
 		List<Integer> slotsowned = plugin.getPlayersConfig().getIntegerList("Players."+p.getUniqueId().toString()+".factories."+String.valueOf(facid)+".slots-owned");
 		return slotsowned;
+	}
+	public void addItemToStock(Player p, String item, int amount) {
+		String uuid = p.getUniqueId().toString();
+		int amt = plugin.getPlayersConfig().getInt("Players."+uuid+".equipmentstock."+item);
+		plugin.getPlayersConfig().set("Players."+uuid+".equipmentstock."+item, amt+amount);
+		plugin.saveConfigToFile(plugin.playersFile, plugin.playersConfig);
+		return;
 	}
 	// TODO FACTORY (OTHER)
 	public int getFactoryCost(int facid) {
@@ -398,6 +424,13 @@ public class ConfigManager {
 	public void addFactoryWorld(String worldname) {
 		List<String> worlds = plugin.getFactoryConfig().getStringList("FactorySettings.factoryworlds");
 		worlds.add(worldname);
+		plugin.getFactoryConfig().set("FactorySettings.factoryworlds", worlds);
+		plugin.saveConfigToFile(plugin.factoryFile, plugin.factoryConfig);
+		return;
+	}
+	public void removeFactoryWorld(String worldname) {
+		List<String> worlds = plugin.getFactoryConfig().getStringList("FactorySettings.factoryworlds");
+		worlds.remove(worldname);
 		plugin.getFactoryConfig().set("FactorySettings.factoryworlds", worlds);
 		plugin.saveConfigToFile(plugin.factoryFile, plugin.factoryConfig);
 		return;
@@ -532,5 +565,5 @@ public class ConfigManager {
 		return configmanager;
 	}
 	
-	
+
 }

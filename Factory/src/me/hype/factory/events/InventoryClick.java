@@ -1,6 +1,5 @@
 package me.hype.factory.events;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -12,10 +11,12 @@ import org.bukkit.inventory.Inventory;
 import me.hype.factory.Core;
 import me.hype.factory.managers.ConfigManager;
 import me.hype.factory.managers.InventoryManager;
+import me.hype.factory.managers.ItemManager;
 
 public class InventoryClick implements Listener {
 	
 	InventoryManager im = new InventoryManager();
+	ItemManager itm = new ItemManager();
 	ConfigManager cm = new ConfigManager();
 	Core plugin = Core.getInstance();
 	String prefix = Core.getInstance().getConfig().getString("Settings.prefix");
@@ -40,6 +41,8 @@ public class InventoryClick implements Listener {
 				return;
 			} else if (dn.equals(format("&f&lFactory 1")) && e.getCurrentItem().getType() == Material.IRON_BLOCK) {
 				e.setCancelled(true);
+				p.sendMessage(format(prefix+"&aTeleporting..."));
+				cm.tpToFactoryHome(p, 1);
 				return;
 			} else if (!dn.equals(format("&f&lFactory 1"))) {
 				for (int i = 2;i<3;i++) {
@@ -52,6 +55,8 @@ public class InventoryClick implements Listener {
 						break;
 					} else if (dn.equals(format("&f&lFactory "+i)) && e.getCurrentItem().getType() == Material.IRON_BLOCK) {
 						e.setCancelled(true);
+						p.sendMessage(format(prefix+"&aTeleporting..."));
+						cm.tpToFactoryHome(p, i);
 						continue;
 					}
 				}
@@ -112,11 +117,8 @@ public class InventoryClick implements Listener {
 			if (dn == null) {dn = format(e.getCurrentItem().getItemMeta().getDisplayName());}
 			if (dn.equals(format("&a&lYES"))) {
 				e.setCancelled(true);
-				p.closeInventory();
-				Bukkit.getServer().getConsoleSender().sendMessage(plugin.getSlotId()+"/"+plugin.getFactoryId());
 				int pmoney = plugin.getPlayersConfig().getInt("Players."+p.getUniqueId().toString()+".stats.money");
 				int cost = cm.getSlotCost(p.getWorld().getName(), plugin.getSlotId()-1);
-				Bukkit.getServer().getConsoleSender().sendMessage(cost+"/"+pmoney);
 				if (pmoney < cost) {
 					p.closeInventory();
 					p.sendMessage(format(prefix+"&cYou dont have enough money to buy this slot. You need &6"+(cost-pmoney)+"&c."));
@@ -136,6 +138,56 @@ public class InventoryClick implements Listener {
 				e.setCancelled(true);
 				p.closeInventory();
 				p.sendMessage(format(prefix+"&cYou have denided the slot purchase."));
+				return;
+			}
+		}
+		// TODO BUY FACTORY EQUIPMENT INVENTORY
+		if (inv.getName().equals(format("&6Factory Equipment"))) {
+			if (dn == null) {dn = format(e.getCurrentItem().getItemMeta().getDisplayName());}
+			if (dn.equals(format("&6Buyer"))) {
+				e.setCancelled(true);
+				int pmoney = plugin.getPlayersConfig().getInt("Players."+p.getUniqueId().toString()+".stats.money");
+				int cost = plugin.getFactoryConfig().getInt("FactorySettings.factory-equipment.buyer.cost");
+				if (pmoney < cost) {
+					p.sendMessage(format(prefix+"&cYou dont have enough money to buy this equipment."));
+					return;
+				}
+				pmoney -= cost;
+				plugin.getPlayersConfig().set("Players."+p.getUniqueId().toString()+".stats.money", pmoney);
+				plugin.saveConfigToFile(plugin.playersFile, plugin.playersConfig);
+				cm.addItemToStock(p, "buyer", 1);
+				p.closeInventory();
+				p.sendMessage(format(prefix+"&6Buyer &apurchase successful. Check your stock (chest)."));
+				return;
+			} else if (dn.equals(format("&6Seller"))) {
+				e.setCancelled(true);
+				int pmoney = plugin.getPlayersConfig().getInt("Players."+p.getUniqueId().toString()+".stats.money");
+				int cost = plugin.getFactoryConfig().getInt("FactorySettings.factory-equipment.seller.cost");
+				if (pmoney < cost) {
+					p.sendMessage(format(prefix+"&cYou dont have enough money to buy this equipment."));
+					return;
+				}
+				pmoney -= cost;
+				plugin.getPlayersConfig().set("Players."+p.getUniqueId().toString()+".stats.money", pmoney);
+				plugin.saveConfigToFile(plugin.playersFile, plugin.playersConfig);
+				cm.addItemToStock(p, "seller", 1);
+				p.closeInventory();
+				p.sendMessage(format(prefix+"&6Seller &apurchase successful. Check your stock (chest)."));
+				return;
+			} else if (dn.equals(format("&6Conveyor Belt"))) {
+				e.setCancelled(true);
+				int pmoney = plugin.getPlayersConfig().getInt("Players."+p.getUniqueId().toString()+".stats.money");
+				int cost = plugin.getFactoryConfig().getInt("FactorySettings.factory-equipment.conveyorbelt.cost");
+				if (pmoney < cost) {
+					p.sendMessage(format(prefix+"&cYou dont have enough money to buy this equipment."));
+					return;
+				}
+				pmoney -= cost;
+				plugin.getPlayersConfig().set("Players."+p.getUniqueId().toString()+".stats.money", pmoney);
+				plugin.saveConfigToFile(plugin.playersFile, plugin.playersConfig);
+				cm.addItemToStock(p, "conveyorbelt", 1);
+				p.closeInventory();
+				p.sendMessage(format(prefix+"&6Conveyor Belt &apurchase successful. Check your stock (chest)."));
 				return;
 			}
 		}
