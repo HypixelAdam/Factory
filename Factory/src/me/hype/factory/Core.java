@@ -28,6 +28,7 @@ import me.hype.factory.commands.FactoryHome;
 import me.hype.factory.commands.Help;
 import me.hype.factory.commands.PlayerStats;
 import me.hype.factory.events.InventoryClick;
+import me.hype.factory.events.OnBlockPlace;
 import me.hype.factory.events.OnEntityClick;
 import me.hype.factory.events.OnInteract;
 import me.hype.factory.events.OnJoin;
@@ -96,6 +97,7 @@ public class Core extends JavaPlugin {
 		getLisn(new OnJoin(),this);
 		getLisn(new OnEntityClick(),this);
 		getLisn(new OnInteract(),this);
+		getLisn(new OnBlockPlace(),this);
 		return;
 	}
 

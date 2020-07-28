@@ -25,10 +25,21 @@ public class OnInteract implements Listener {
 		Player p = e.getPlayer();
 		Action a = e.getAction();
 		
-		if ((a == Action.RIGHT_CLICK_AIR || a == Action.RIGHT_CLICK_BLOCK) 
-				&& p.getInventory().getItemInMainHand().getType() == Material.EMERALD
+		if (a == Action.RIGHT_CLICK_AIR && p.getInventory().getItemInMainHand().getType() == Material.EMERALD
 				&& p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(format("&aBuy Factory Equipment"))) {
 			p.openInventory(im.buyEquipmentInventory());
+			return;
+		}
+		if (a == Action.RIGHT_CLICK_AIR && p.getInventory().getItemInMainHand().getType() == Material.CHEST
+				&& p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(format("&aEquipment Storage"))) {
+			p.getInventory().clear();
+			im.storageInventory(p);
+			return;
+		}
+		
+		if (a == Action.RIGHT_CLICK_AIR && p.getInventory().getItemInMainHand().getType() == Material.BARRIER
+				&& p.getInventory().getItemInMainHand().getItemMeta().getDisplayName().equals(format("&cExit"))) {
+			im.factoryInventory(p);
 			return;
 		}
 

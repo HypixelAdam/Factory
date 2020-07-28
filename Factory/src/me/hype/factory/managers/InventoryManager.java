@@ -16,30 +16,8 @@ public class InventoryManager {
 	
 	ConfigManager cm = new ConfigManager();
 	Core plugin = Core.getInstance();
+	ItemManager im = new ItemManager();
 	
-	public void factoryInventory(Player p) {
-		if (plugin == null) {plugin = Core.getInstance();}
-		if (cm == null) {cm = new ConfigManager();}
-		Inventory pinv = p.getInventory();
-		//
-		ItemStack equipment = new ItemStack(Material.EMERALD,1);
-		ItemStack estock = new ItemStack(Material.CHEST,1);
-		//
-		ArrayList<String> elore = new ArrayList<String>();
-		ArrayList<String> eslore = new ArrayList<String>();
-		//
-		elore.add(format("&7Right click me to buy your equipment!"));
-		eslore.add(format("&7Right click me to see what you have in stock!"));
-		//
-		setIm(equipment,format("&aBuy Factory Equipment"),elore);
-		setIm(estock,format("&aEquipment Storage"),eslore);
-		//
-		pinv.clear();
-		pinv.setItem(0, equipment);
-		pinv.setItem(8, estock);
-		//
-		return;
-	}
 	
 	public Inventory buyFactory(Player p) {
 		if (plugin == null) {plugin = Core.getInstance();}
@@ -174,6 +152,52 @@ public class InventoryManager {
 		return inv;
 	}
 	// TODO PLAYER INVENTORYS
+	public void factoryInventory(Player p) {
+		if (plugin == null) {plugin = Core.getInstance();}
+		if (cm == null) {cm = new ConfigManager();}
+		Inventory pinv = p.getInventory();
+		//
+		ItemStack equipment = new ItemStack(Material.EMERALD,1);
+		ItemStack estock = new ItemStack(Material.CHEST,1);
+		//
+		ArrayList<String> elore = new ArrayList<String>();
+		ArrayList<String> eslore = new ArrayList<String>();
+		//
+		elore.add(format("&7Right click me to buy your equipment!"));
+		eslore.add(format("&7Right click me to see what you have in stock!"));
+		//
+		setIm(equipment,format("&aBuy Factory Equipment"),elore);
+		setIm(estock,format("&aEquipment Storage"),eslore);
+		//
+		pinv.clear();
+		pinv.setItem(0, equipment);
+		pinv.setItem(8, estock);
+		//
+		return;
+	}
+	public void storageInventory(Player p) {
+		if (plugin == null) {plugin = Core.getInstance();}
+		if (cm == null) {cm = new ConfigManager();}
+		Inventory pinv = p.getInventory();
+		//
+		ItemStack buyer = im.getBuyerItem();
+		ItemStack seller = im.getSellerItem();
+		ItemStack conveyor = im.getConveyorBeltItem();
+		ItemStack exit = new ItemStack(Material.BARRIER,1);
+		//
+		ArrayList<String> elore = new ArrayList<String>();
+		//
+		elore.add(format("&7Right click to exit out of the storage menu."));
+		//
+		setIm(exit,format("&cExit"),elore);
+		//
+		pinv.setItem(8, exit);
+		if (hasInStock(p,"buyer") > 0) {buyer.setAmount(hasInStock(p,"buyer"));pinv.addItem(buyer);}
+		if (hasInStock(p,"seller") > 0) {seller.setAmount(hasInStock(p,"buyer"));pinv.addItem(seller);}
+		if (hasInStock(p,"conveyorbelt") > 0) {conveyor.setAmount(hasInStock(p,"buyer"));pinv.addItem(conveyor);}
+		//
+		return;
+	}
 	// TODO OTHER METHODS
 	public ItemStack setIm(ItemStack is, String displayname, ArrayList<String> lore) {
 		ItemMeta im = is.getItemMeta();
@@ -209,6 +233,15 @@ public class InventoryManager {
 			return yes;
 		} 
 		return no;
+	}
+	
+	public int hasInStock(Player p, String item) {
+		String uuid = p.getUniqueId().toString();
+		if (plugin.getPlayersConfig().getInt("Players."+uuid+".equipmentstock."+item) > 0) {
+			return plugin.getPlayersConfig().getInt("Players."+uuid+".equipmentstock."+item);
+		} else {
+			return 0;
+		}
 	}
 	
 	public ArrayList<String> addSlotLore(Player p, int facid, int slotid, ItemStack is) {
